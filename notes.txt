@@ -1,0 +1,38 @@
+Network has to predict both class and bounding box.
+Most images are frames from a video (interesting way to create dataset)
+
+.xml for each image contains:
+	1. folder
+	2. filename
+	3. path
+	4. (w, h, d), (Resize to square)
+	5. segmented (T/F)
+	6. object:
+		i) name
+		ii) sitting
+		iii) truncated(T/F)
+		iv) difficult (to detect?) (T/F)
+		v) bndbox:
+			a) xmin
+			b) ymin
+			c) xmax
+			d) ymax
+
+Number of images: 1,498 = Number of annotations (Phew!)
+
+Minimum width of image: 720 
+Minimum height of image: 480
+--------------------------------------------------------------------
+PREPROCESSING
+--------------------------------------------------------------------
+1. Labels have to be [(p, bx, by, bw, bh)*N_anchors] where (bx, by, bw, bh) have to be in [0, 1] relative to gridcell_height, gridcell_width
+2. Resize images
+3. Normalize images
+4. Create batches for images (HDF5Writer) 
+--------------------------------------------------------------------
+NETWORK
+--------------------------------------------------------------------
+Okay, let's start building:
+Shape of YOLO output layers is: (N, N, 3, (N_classes + 4 + 1) * N_anchboxes)
+
+  
